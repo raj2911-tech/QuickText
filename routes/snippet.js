@@ -1,18 +1,23 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+
 const router = express.Router();
 
-
+// Home page
 router.get('/', (req, res) => {
   res.render('index');
-
 });
 
+// Create a new snippet
 router.post('/create', (req, res) => {
   const { title, text } = req.body;
-  // console.log(title, text);
-  const fileName = title.split(' ').join('') + '.txt';
+
+  if (!title || !text) {
+    return res.status(400).send('Title and text are required.');
+  }
+
+  const fileName = title.trim().split(' ').join('') + '.txt';
   const filePath = path.join(__dirname, '..', 'snippets', fileName);
 
   fs.writeFile(filePath, text, (err) => {
@@ -20,26 +25,24 @@ router.post('/create', (req, res) => {
       console.error('Error writing file:', err);
       return res.status(500).send('Server error');
     }
-    console.log('File written');
-    res.render('success', { fileUrl: `http://localhost:3000/${fileName.slice(0, -4)}` });
+
+    res.render('success', {
+      fileUrl: `http://localhost:3000/${fileName.replace('.txt', '')}`
+    });
   });
 });
 
-router.get('/404', (req, res) => {
-  res.sendFile(path.join(__dirname, '../views/404.html'));
-});
-
+// View a snippet
 router.get('/:filename', (req, res) => {
-  const filename = req.params.filename + '.txt';
-  const filePath = path.join(__dirname, '..', 'snippets', filename);
+  const fileName = req.params.filename + '.txt';
+  const filePath = path.join(__dirname, '..', 'snippets', fileName);
 
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err || !data) {
-      console.error('File not found', err);
+      console.warn(`File not found: ${fileName}`);
       return res.status(404).render('404');
-
     }
-    console.log('File content:', data);
+
     res.render('view', {
       filename: req.params.filename,
       content: data
@@ -47,27 +50,14 @@ router.get('/:filename', (req, res) => {
   });
 });
 
-router.post('/:filename/delete',(req,res)=>{
-
-  const filename=req.params.filename + '.txt';
-  fs.unlink(path.join(__dirname, '..', 'snippets', filename), (err) => {
-    if (err) {
-      console.error('Error deleting file:', err);
-      return res.status(500).send('Error deleting file');
-    }
-    console.log('File deleted successfully!');
-    res.redirect('/');
-
-  });
-});
-
+// Edit a snippet (form page)
 router.get('/:filename/edit', (req, res) => {
-  const filename = req.params.filename + '.txt';
-  const filePath = path.join(__dirname, '..', 'snippets', filename);
+  const fileName = req.params.filename + '.txt';
+  const filePath = path.join(__dirname, '..', 'snippets', fileName);
 
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err || !data) {
-      console.error('Error reading file:', err);
+      console.warn(`Error reading file for edit: ${fileName}`);
       return res.status(404).render('404');
     }
 
@@ -78,10 +68,10 @@ router.get('/:filename/edit', (req, res) => {
   });
 });
 
-
+// Update a snippet
 router.post('/:filename/update', (req, res) => {
-  const filename = req.params.filename + '.txt';
-  const filePath = path.join(__dirname, '..', 'snippets', filename);
+  const fileName = req.params.filename + '.txt';
+  const filePath = path.join(__dirname, '..', 'snippets', fileName);
   const newText = req.body.text;
 
   fs.writeFile(filePath, newText, (err) => {
@@ -90,10 +80,24 @@ router.post('/:filename/update', (req, res) => {
       return res.status(500).send('Failed to update file');
     }
 
-    res.redirect('/' + req.params.filename);  
+    res.redirect('/' + req.params.filename);
   });
 });
 
+// Delete a snippet
+router.post('/:filename/delete', (req, res) => {
+  const fileName = req.params.filename + '.txt';
+  const filePath = path.join(__dirname, '..', 'snippets', fileName);
+
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error('Error deleting file:', err);
+      return res.status(500).send('Error deleting file');
+    }
+
+    res.redirect('/');
+  });
+});
 
 
 
