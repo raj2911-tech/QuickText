@@ -40,11 +40,26 @@ router.get('/:filename', (req, res) => {
 
     }
     console.log('File content:', data);
-    // res.send(`<pre>${data}</pre>`);
     res.render('view', {
       filename: req.params.filename,
       content: data
     });
+  });
+});
+
+router.post('/:filename/delete',(req,res)=>{
+  console.log("test")
+
+  const filename=req.params.filename + '.txt';
+  console.log(filename)
+  fs.unlink(path.join(__dirname, '..', 'snippets', filename), (err) => {
+    if (err) {
+      console.error('Error deleting file:', err);
+      return res.status(500).send('Error deleting file');
+    }
+    console.log('File deleted successfully!');
+    res.redirect('/');
+
   });
 });
 

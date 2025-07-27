@@ -6,12 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>View Snippet</title>
   <link rel="stylesheet" href="/css/view.css">
-
-
 </head>
 
 <body>
-  <div class="container">
+  <div class="button-group">
+
+    <form action="/edit>" method="GET">
+      <button type="submit" class="edit-btn">Edit</button>
+    </form>
+
+    <form action="/<%= filename%>/delete" method="POST">
+      <button type="submit" class="del-btn">Delete</button>
+    </form>
+  </div>
+
     <h2>Snippet: <%= filename %>
     </h2>
     <pre><%= content %></pre>
