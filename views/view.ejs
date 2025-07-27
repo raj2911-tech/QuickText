@@ -4,26 +4,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>View Snippet</title>
+  <title>QuickText | View Snippet</title>
   <link rel="stylesheet" href="/css/view.css">
 </head>
 
 <body>
-  <div class="button-group">
+  <div class="container">
+    <div class="header">
+      <h2>📄 Snippet: <%= filename %></h2>
+      <div class="button-group">
+        <form action="/<%= filename %>/edit" method="GET">
+          <button type="submit" class="edit-btn">✏️ Edit</button>
+        </form>
+        <form action="/<%= filename %>/delete" method="POST">
+          <button type="submit" class="del-btn">🗑️ Delete</button>
+        </form>
+      </div>
+    </div>
 
-    <form action="/edit>" method="GET">
-      <button type="submit" class="edit-btn">Edit</button>
-    </form>
+    <div class="code-container">
+      <button id="copyBtn" class="copy-btn">📋</button>
+      <pre id="snippetText"><%= content %></pre>
+    </div>
+    <p id="copyMsg" style="display: none; color: green; margin-top: 10px;">✅ Copied!</p>
 
-    <form action="/<%= filename%>/delete" method="POST">
-      <button type="submit" class="del-btn">Delete</button>
-    </form>
+    
+
+  </div>
   </div>
 
-    <h2>Snippet: <%= filename %>
-    </h2>
-    <pre><%= content %></pre>
-  </div>
+  <script src="/js/main.js"></script>
 </body>
 
 </html>

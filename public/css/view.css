@@ -1,65 +1,96 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f0f0f0;
+  background-color: #f0f2f5;
+  margin: 0;
   padding: 30px;
 }
 
 .container {
   background: white;
-  padding: 20px;
-  border-radius: 6px;
+  padding: 25px;
+  border-radius: 8px;
   max-width: 800px;
   margin: auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+h2 {
+  color: #333;
+  margin: 0 0 10px 0;
 }
 
 pre {
   background: #272822;
   color: #f8f8f2;
   padding: 20px;
-  border-radius: 4px;
+  border-radius: 6px;
   overflow-x: auto;
-  font-size: large;
-}
-
-h2 {
-  color: #333;
-}
-
-
-.edit-btn {
-  cursor: pointer;
-  padding: 5px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  border: 1px solid;
-  border-radius: 6px;
-  color: #ffffff;
-  background-color: #2ea44f;
-  border-color: #1b1f2326;
-  transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
-
-}
-
-.del-btn {
-
-  cursor: pointer;
-  padding: 5px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  border: 1px solid;
-  border-radius: 6px;
-  background-color: #ff4742;
-  color: #ffffff;
-  border-color: #1b1f2326;
-  transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  font-size: 16px;
+  line-height: 1.5;
+  white-space: pre-wrap;
 }
 
 .button-group {
   display: flex;
-  justify-content: flex-end; 
-  gap: 10px;                 
-  margin-bottom: 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.edit-btn,
+.del-btn {
+  cursor: pointer;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.edit-btn {
+  background-color: #2ea44f;
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background-color: #22863a;
+}
+
+.del-btn {
+  background-color: #ff4742;
+  color: #fff;
+}
+
+.del-btn:hover {
+  background-color: #cc3732;
+}
+
+.code-container {
+  position: relative;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.copy-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
